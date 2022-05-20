@@ -20,11 +20,11 @@ app.get('/', (request, response) => {
 	response.sendFile(path.resolve(__dirname, 'index.html'))
 })
 
-app.post('/', (request, response) => {
-	console.log(request.body)
+app.post('/crear', (request, response) => {
 	let markDownText = request.body.text
 	console.log(markDownText)
 	let htmlText = md.render(markDownText)
+	console.log(htmlText)
 	response.setHeader('Content-Type', 'application/json')
 	response.end(JSON.stringify({
 		text: htmlText

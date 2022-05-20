@@ -1,9 +1,9 @@
 function recitar(markupText) {
-    const url = 'http://localhost:3000/'
+    const url = 'http://localhost:3000/crear'
 	const data = {
 		text: markupText
 	}
-	console.log(data)
+	
 	const request = {
 		method: 'POST', // Podría ser GET
 		headers: {
@@ -11,22 +11,39 @@ function recitar(markupText) {
 		},
 		body: JSON.stringify(data),
 	}
-	http = fetch(url, request)
-	http.then(
+	fetch(url, request).then(
 		response => response.json()
 	).then(
-		data => {
-            console.log(data)
-			//document.querySelector("#htmlCode").innerHTML = data.text
+		data => {  
+			document.querySelector("#htmlCode").innerHTML = data.text
+			document.querySelector("#htmlCode").innerHTML += '<button onclick=formView()>Regresar</button>'
 		}
 	)
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+function formView(){
+	html =  `
+			<form id="markupForm">
+				<h2>Ingrese el texto</h2>
+				<textarea id="markupText" rows="10" cols="50"></textarea>
+				<input type="submit">
+  			</form>
+
+	`
+
+	document.querySelector("#htmlCode").innerHTML = html
+	createMarkdown()
+
+}
+function createMarkdown(){
 	const text = document.querySelector('#markupText')
     document.querySelector('#markupForm').onsubmit = () => {
-        recitar(text.value)
-		return false;
+		recitar(text.value)
+	  	return false;
 	}
-})
+}
 
+document.addEventListener('DOMContentLoaded', function() {
+	formView()
+	}
+)
